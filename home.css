@@ -1,0 +1,584 @@
+/* Common style starts */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap");
+
+:root{
+    --gray: #efefef;
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+button,
+body {
+    font-family: "Poppins", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+p{
+    font-size: 14px;
+    line-height: 26px;
+}
+
+.fullContainer {
+    width: 100%;
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.sectionTitle {
+    width: 800px;
+    border-bottom: 3px solid #93268f;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 400;
+    margin: 0 auto 50px;
+    margin-top: -2.8%;
+    position: relative;
+    pad: 10px 0;
+    text-transform: uppercase;
+}
+
+.sectionTitle::after{
+    display: inline-block;
+    content: "";
+    height: 15px; 
+    width: 15px;
+    background-color:  #93268f;
+    position: absolute;
+    left: calc(50% - 10px);
+    top: calc(75% - 7px);
+    transform: rotate(45deg) translate(50%, 50%);
+    border: 0.9px solid #fff;
+}
+
+section{
+    padding: 100px 0;
+    position: relative;
+}
+
+/* Common style ends */
+
+/* Home Style starts */
+
+header {
+    width: 100%;
+    height: 13%;
+    background-color: rgba(112, 106, 112, 0.6);
+    position: fixed;
+    z-index: 2;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+}
+
+header .container .logo{
+    height: 60px;
+}
+
+header .container .logo img{
+    height: 200%;
+    margin-top: 1%;
+    margin-left: -120%;
+}
+
+header nav ul{
+    list-style-type: none;
+}
+
+header nav ul li{
+    display: inline-block;
+}
+
+header nav ul li a {
+    display: inline-block;
+    height: 75px;
+    line-height: 75px;
+    padding: 0 15px;
+    text-decoration: none;
+    text-transform: capitalize;
+    font-size: 16px;
+    color: #fff;
+    transition: 0.3s;
+}
+
+header nav ul li a:hover{
+    background-color: #93268f;
+}
+
+.banner{
+    width: 100vh;
+    width: 100%;
+    height: 500%;
+    background-image: url(back1.jpeg);
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.banner h1{
+    margin-top: 230px;
+    display: inline-block;
+    font-size: 3.5rem;
+    color: rgb(255, 255, 255);
+    text-shadow: 0 0 2px #000;
+    width: 50%;
+    line-height: 4.2rem;
+    font-weight: 300;
+}
+
+.banner h1 span{
+    color: #93268f;
+    display: inline-block;
+    line-height: 3.5rem;
+    padding: 0 15px;
+    font-weight: 600;
+    border-radius: 5px;
+}
+
+.banner p{
+    color: rgb(255, 255, 255);
+    width: 50%;
+    text-shadow: 0 0 2px #000;
+    margin-top: 10px;
+}
+
+.banner button {
+    background-color: #93268f;
+    border: 0;
+    outline: none;
+    color: #fff;
+    padding: 10px 15px;
+    margin-top: 20px;
+    font-size: 13px;
+    border-radius: 3px;
+    font-weight: 600;
+}
+
+/* Home style ends */
+
+/* AboutSection start */
+
+#aboutSection .cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 50px;
+    position: relative;
+    height: auto;
+    margin-bottom: 50px;
+}
+
+#aboutSection .cards > div {
+    width: 350px;
+    background-color: var(--gray);
+    padding: 35px;
+    color: #444;
+    text-align: center;
+    border-radius: 30px;
+    height: auto;
+    border: 10px solid #020202;
+    transition: 0.4s;
+}
+
+#aboutSection .cards > div:hover{
+    width: 400px;
+    margin-top: -20px;
+    border-color: #93268f;
+    padding: 55px;
+    height: auto;
+}
+
+#aboutSection .cards > div .title {
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+#aboutSection .cards > div p {
+    font-size: 14px;
+    margin-top: 15px;
+    word-wrap: break-word;
+}
+
+#aboutSection .cards > div ul {
+    word-wrap: break-word;
+}
+
+#aboutSection .cards > div li {
+    word-wrap: break-word;
+}
+
+/* AboutSection end */
+
+/* program Section start */
+
+.programs{
+    background-color: #e2e2e2;
+}
+
+.programs .boxContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 50px;
+}
+
+.programs .boxContainer .box {
+    background-color: #fff;
+    text-align: center;
+    padding-bottom: 25px;
+    border-radius: 5px;
+    box-shadow: 0 0 3px 0 #c5c5c5;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.programs .boxContainer .box .cardImage {
+    width: 100%;
+    height: 300px;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px 5px 0 0;
+}
+
+.programs .boxContainer .box .cardImage:after {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-size: cover;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    filter: grayscale(100%);
+    transition: 0.4s;
+}
+
+.programs .boxContainer .box:nth-child(1) .cardImage,
+.programs .boxContainer .box:nth-child(1) .cardImage:after{
+    background-image: url("pic1.webp");
+}
+
+.programs .boxContainer .box:nth-child(2) .cardImage,
+.programs .boxContainer .box:nth-child(2) .cardImage:after{
+    background-image: url("pic4.jpg");
+}
+
+.programs .boxContainer .box:nth-child(3) .cardImage,
+.programs .boxContainer .box:nth-child(3) .cardImage:after{
+    background-image: url("pic2.webp");
+}
+
+.programs .boxContainer .box:nth-child(4) .cardImage,
+.programs .boxContainer .box:nth-child(4) .cardImage:after{
+    background-image: url("pic5.jpg");
+}
+
+.programs .boxContainer .box:hover .cardImage:after{
+    top: 100%;
+}
+
+.programs .boxContainer .box .programTitle {
+    font-size: 16px;
+    margin-top: 15px;
+    font-weight: 600;
+    color: #444;
+}
+
+.programs .boxContainer .box .donationCount {
+    font-size: 13px;
+    margin-top: 10px;
+    font-weight: 600;
+    color: #444;
+}
+
+.programs .boxContainer .box .donationCount span{
+    color: #93268f;
+}
+
+.programs .boxContainer .box button{
+    background-color: #93268f;
+    color: white;
+    text-decoration: none;
+    border: 2px solid transparent;
+    font-weight: bold;
+    padding: 10px 25px;
+    border-radius: 30px;
+    transition: transform .4s;
+}
+.programs .boxContainer .box button:hover{
+    transform: scale(1.2);
+}
+
+/* program Section end */
+
+
+/* gallery start here */
+
+.gallery .galleryContainer {
+    column-count: 4;
+    column-gap: 20px;
+}
+
+.gallery .galleryContainer .item {
+    position: relative;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.gallery .galleryContainer img{
+    width: 100%;
+    display: block;
+    transition: 0.4s;
+}
+
+.gallery .galleryContainer .title{
+    position: absolute;
+    background-color: var(--gray);
+    padding: 5px;
+    margin: 5px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    opacity: 0;
+    z-index: 1;
+    transition: 0.4s;
+}
+
+.gallery .galleryContainer .item:hover .title {
+    opacity: 1;
+}
+
+.gallery .galleryContainer .item:hover img{
+    transform: scale(1.2);
+}
+
+/* gallery end here */
+
+/* join section starts from here */
+
+.join{
+    background-image: url("pattern.png");
+    background-size: cover;
+    background-attachment: fixed;
+    color: #fff;
+    text-align: center;
+    padding: 80px 0;
+}
+
+.join .joinTitle{
+    font-size: 40px;
+    font-weight: 800;
+}
+
+.join .joinTitle span{
+    font-weight: 800;
+    color: #93268f;
+}
+
+.join button{
+    padding: 7px 15px;
+    margin-top: 20px;
+    border: 0;
+    outline: none;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.join button.joinNow{
+    margin-right: 10px;
+    background-color: #93268f;
+    color: #fff;
+}
+
+.join button.adoptBtn{
+    background-color: var(--gray);
+}
+
+/* join section end here */
+
+/* footer start here */
+
+footer{
+    background-color: #181818;
+    color: #7f7f7f;
+    padding: 50px 0;
+    font-size: 14px;
+
+}
+
+footer .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 50px;
+    margin-bottom: 7%;
+}
+
+footer .title{
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-bottom: 2px solid;
+    margin-bottom: 30px;
+    padding: 0 0 5px 0;
+}
+
+footer p{
+    margin-bottom: 10px;
+}
+
+footer .linksContainer ul{
+    list-style-type: none;
+}
+
+footer .linksContainer ul li a{
+    text-decoration: none;
+    color: #7f7f7f;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+footer .newsLetterContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+footer .newsLetterContainer img{
+    height: 40px;
+    flex-shrink: 0;
+}
+
+footer .newsLetterContainer input{
+    background-color: transparent;
+    border: 1px solid #7f7f7f;
+    outline: none;
+    padding: 10px 15px;
+    width: 100%;
+    margin-top: 10px;
+    color: #ccc;
+    border-radius: 30px;
+}
+
+
+/* footer end here */
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .sectionTitle {
+        width: 90%;
+        font-size: 1.8rem;
+    }
+
+    #aboutSection .cards > div {
+        width: 300px;
+    }
+
+    .programs .boxContainer {
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    header .container .logo img {
+        height: 150%;
+        margin-left: -50%;
+    }
+
+    header nav ul li a {
+        padding: 0 10px;
+        font-size: 14px;
+    }
+
+    .banner h1 {
+        font-size: 2.5rem;
+        width: 80%;
+        line-height: 3rem;
+    }
+
+    .banner p {
+        width: 80%;
+    }
+
+    #aboutSection .cards {
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+        margin-bottom: 50px;
+    }
+
+    #aboutSection .cards > div {
+        width: 90%;
+        margin-bottom: 20px;
+    }
+
+    .programs .boxContainer {
+        grid-template-columns: 1fr;
+    }
+
+    footer .container {
+        grid-template-columns: 1fr;
+        grid-gap: 30px;
+    }
+
+    .join .joinTitle {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    header .container .logo img {
+        height: 40px;
+        margin-left: 0;
+        margin-top: 0;
+    }
+
+    footer .newsLetterContainer img {
+        height: 30px;
+    }
+
+    .banner h1 {
+        font-size: 2rem;
+        margin-top: 150px;
+    }
+
+    .banner p {
+        font-size: 12px;
+    }
+
+    .sectionTitle {
+        font-size: 1.5rem;
+    }
+
+    .programs .boxContainer .box .cardImage {
+        height: 200px;
+    }
+
+    .join {
+        padding: 50px 0;
+    }
+
+    .join .joinTitle {
+        font-size: 25px;
+    }
+}
+
+/* footer end here */

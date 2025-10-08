@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MFM Forgot Page</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="shortcut icon" type="x-icon" href="icon1.png">
+</head>
+<body>
+    <div class="box">
+        <div class="form">
+            <h2>Forgot Password</h2>
+
+            <!-- Wrap inputs inside a form -->
+            <form id="forgotForm">
+                <div class="inputBox">
+                    <input type="text" required="required" name="username">
+                    <span>Username</span>
+                    <i></i>
+                </div>
+                <div class="inputBox">
+                    <input type="email" required="required" name="recovery-email">
+                    <span>Recovery Email</span>
+                    <i></i>
+                </div>
+                <br>
+                <!-- Submit button that redirects -->
+                <input type="submit" value="RESET">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('forgotForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.querySelector('input[name="username"]').value;
+            const email = document.querySelector('input[name="recovery-email"]').value;
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.username === username && u.email === email);
+
+            if (user) {
+                sessionStorage.setItem('resetUsername', username);
+                window.location.href = 'Reset.html';
+            } else {
+                alert('No user found with that username and email!');
+            }
+        });
+    </script>
+</body>
+</html>

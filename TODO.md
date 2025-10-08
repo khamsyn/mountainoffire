@@ -1,0 +1,6 @@
+- [x] Edit dashboard.html: Wrap the logo and hamburger div in a new <div class="header-left"> to group them for vertical stacking.
+- [x] Edit dashboard.css: Add CSS for .header-left to display as flex column and center align items, positioning hamburger under the logo.
+- [x] Edit forgot.css: Add media queries for tablets (768px) and phones (480px), adjust logo img height, add img responsive rule.
+- [x] Edit login.css: Adjust logo img height in existing media queries, add img responsive rule.
+- [x] Edit admin.css: Adjust logo and footer img heights in media queries, add img responsive rule.
+- [x] Edit dashboard.css: Adjust logo and footer img heights in media queries, add img responsive rule.

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MFM Login Page</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="shortcut icon" type="x-icon" href="icon1.png">
+</head>
+<body>
+    <div class="box">
+        <div class="form">
+            <h2>WELCOME TO MFM  <BR>LOGIN PAGE</h2>
+            
+            <!-- Wrap inputs inside a form -->
+            <form action="dashboard.html" method="GET">
+                <div class="inputBox">
+                    <input type="text" required="required" name="username" autocomplete="username">
+                    <span>Username</span>
+                    <i></i>
+                </div>
+                <div class="inputBox">
+                    <input type="password" required="required" name="password" autocomplete="current-password">
+                    <span>Password</span>
+                    <i></i>
+                </div>
+                <div class="links">
+                    <a href="Forgot.html">Forgot Password</a>
+                    <a href="signup.html">Signup</a>
+                </div>
+                <!-- Submit button that redirects -->
+                <input type="submit" value="Login">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.querySelector('input[name="username"]').value;
+            const password = document.querySelector('input[name="password"]').value;
+
+            if (username === 'admin' && password === 'admin') {
+                localStorage.setItem('loggedInUser', JSON.stringify({username: 'admin', role: 'admin'}));
+                window.location.href = 'admin.html';
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                localStorage.setItem('loggedInUser', JSON.stringify(user));
+                window.location.href = 'dashboard.html';
+            } else {
+                alert('Invalid username or password!');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KHAMTECH Reset Page</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="shortcut icon" type="x-icon" href="icon1.png">
+</head>
+<body>
+    <div class="box">
+        <div class="form">
+            <h2>Password Reset</h2>
+
+            <form id="resetForm">
+                <div class="inputBox">
+                    <input type="password" required="required" name="newPassword">
+                    <span>New Password</span>
+                    <i></i>
+                </div>
+                <div class="inputBox">
+                    <input type="password" required="required" name="confirmPassword">
+                    <span>Confirm New Password</span>
+                    <i></i>
+                </div>
+                <br>
+                <input type="submit" value="Reset Password">
+            </form>
+
+            <!-- Proper button that links back -->
+            <a href="login.html">
+                <button type="button" class="back-btn">Go back to login page</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('resetForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newPassword = document.querySelector('input[name="newPassword"]').value;
+            const confirmPassword = document.querySelector('input[name="confirmPassword"]').value;
+
+            if (newPassword !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            const username = sessionStorage.getItem('resetUsername');
+            if (!username) {
+                alert('No user to reset password for. Please go back to forgot password.');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const userIndex = users.findIndex(u => u.username === username);
+
+            if (userIndex !== -1) {
+                users[userIndex].password = newPassword;
+                localStorage.setItem('users', JSON.stringify(users));
+                sessionStorage.removeItem('resetUsername');
+                alert('Password reset successful! Please login with your new password.');
+                window.location.href = 'login.html';
+            } else {
+                alert('User not found. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>

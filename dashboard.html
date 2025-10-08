@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MFM Dashboard</title>
+    <link rel="shortcut icon" type="x-icon" href="icon1.png">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-left">
+                <div class="logo">
+                    <img src="icon1.png" alt="MFM Logo">
+                </div>
+                <div class="hamburger" id="hamburger">☰</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="login.html">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div id="sidebar">
+        <section class="sidebarSection">
+            <h2>Sent Requests</h2>
+            <div id="requests-list"></div>
+        </section>
+    </div>
+
+    <div id="main-content">
+        <!-- Profile Section -->
+    <section class="profileSection">
+        <div class="container">
+            <h2 class="sectionTitle">Profile</h2>
+            <div class="profileCard">
+                <h3 id="welcomeMsg">Welcome, User</h3>
+                <p id="email">Email: user@example.com</p>
+                <p id="phone">Phone: +1234567890</p>
+                <p id="houseFellowship">House Fellowship: Example Fellowship</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="bookingSection">
+        <div class="container">
+            <h2 class="sectionTitle">Book a Counselling Session</h2>
+            <div class="bookingForm">
+                <form action="#" method="post">
+                    <div class="formGroup">
+                        <label for="counselingNeed">Explain what you need counselling on:</label>
+                        <textarea id="counselingNeed" name="counselingNeed" rows="4" placeholder="Describe your issue..."></textarea>
+                    </div>
+                    <div class="formGroup">
+                        <label>How urgent is your case?</label>
+                        <div class="urgencyOptions">
+                            <input type="radio" id="mild" name="urgency" value="mild">
+                            <label for="mild" class="urgencyLabel mild">Mild</label>
+                            <input type="radio" id="moderate" name="urgency" value="moderate">
+                            <label for="moderate" class="urgencyLabel moderate">Moderate</label>
+                            <input type="radio" id="urgent" name="urgency" value="urgent">
+                            <label for="urgent" class="urgencyLabel urgent">Urgent</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="submitBtn">Send Request</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Status Section -->
+    <section class="statusSection">
+        <div class="container">
+            <h2 class="sectionTitle">Request Status</h2>
+            <div class="statusCard">
+                <p>Your latest request is: <span id="requestStatus" class="status pending">Pending</span></p>
+                <p>Once approved by the admin, it will show as Approved.</p>
+            </div>
+        </div>
+    </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="newsLetterContainer">
+                <img src="icon1.png" alt="">
+                <p>Mountain of Fire & Miracles Ministries Automated Counselling System</p>
+            </div>
+            <div class="linksContainer">
+                <div class="title">Useful Links</div>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="login.html">Logout</a></li>
+                </ul>
+            </div>
+            <div class="connectContainer">
+                <div class="title">Connect with us</div>
+                <p>NO.1, Umar Dangiwa Street, Narayi High Court<br>Kaduna State, Nigeria.</p>
+                <p>info@mountainoffireandmiraclesministeries.com</p>
+                <p>+2347034799767<br>+2348057202356</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Get logged in user
+        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+        if (!loggedInUser) {
+            window.location.href = 'login.html';
+        }
+        const username = loggedInUser.username;
+        document.getElementById('welcomeMsg').textContent = `Welcome, ${loggedInUser.firstName || username}`;
+        document.getElementById('email').textContent = `Email: ${loggedInUser.email || 'N/A'}`;
+        document.getElementById('phone').textContent = `Phone: ${loggedInUser.phone || 'N/A'}`;
+        document.getElementById('houseFellowship').textContent = `House Fellowship: ${loggedInUser.houseFellowship || 'N/A'}`;
+
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+        hamburger.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            mainContent.classList.toggle('sidebar-open');
+        });
+
+        // Handle form submission
+        const form = document.querySelector('.bookingForm form');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const need = document.getElementById('counselingNeed').value;
+            const urgency = document.querySelector('input[name="urgency"]:checked')?.value || 'mild';
+            const request = {
+                username: username,
+                fullName: loggedInUser.firstName + (loggedInUser.lastName ? ' ' + loggedInUser.lastName : ''),
+                phone: loggedInUser.phone,
+                email: loggedInUser.email,
+                need: need,
+                urgency: urgency,
+                status: 'pending',
+                timestamp: new Date().toISOString(),
+                forwarded: false
+            };
+            // Store in localStorage
+            let requests = JSON.parse(localStorage.getItem('counselingRequests')) || [];
+            requests.push(request);
+            localStorage.setItem('counselingRequests', JSON.stringify(requests));
+            alert('Request submitted successfully!');
+            updateStatus();
+        });
+
+        // Populate requests list
+        function populateRequestsList() {
+            const requestsList = document.getElementById('requests-list');
+            requestsList.innerHTML = '';
+            const requests = JSON.parse(localStorage.getItem('counselingRequests')) || [];
+            const userRequests = requests.filter(r => r.username === username);
+            userRequests.forEach(req => {
+                let statusText;
+                if (req.status === 'confirmed') {
+                    statusText = 'Approved';
+                } else if (req.status === 'canceled') {
+                    statusText = 'Rejected';
+                } else {
+                    statusText = 'Pending';
+                }
+                const ticket = document.createElement('div');
+                ticket.className = 'ticket';
+                ticket.innerHTML = `
+                    <div class="ticket-header">
+                        <span class="urgency ${req.urgency}">${req.urgency.charAt(0).toUpperCase() + req.urgency.slice(1)}</span>
+                        <span class="status ${req.status}">${statusText}</span>
+                    </div>
+                    <p class="ticket-desc">${req.need.length > 50 ? req.need.substring(0,50) + '...' : req.need}</p>
+                    <p class="ticket-time">${new Date(req.timestamp).toLocaleString()}</p>
+                `;
+                requestsList.appendChild(ticket);
+            });
+        }
+
+        // Update status display
+        function updateStatus() {
+            const requests = JSON.parse(localStorage.getItem('counselingRequests')) || [];
+            const userRequests = requests.filter(r => r.username === username);
+            if (userRequests.length > 0) {
+                const latest = userRequests[userRequests.length - 1];
+                const statusEl = document.getElementById('requestStatus');
+                let statusText;
+                if (latest.status === 'confirmed') {
+                    statusText = 'Approved';
+                } else if (latest.status === 'canceled') {
+                    statusText = 'Rejected';
+                } else {
+                    statusText = 'Pending';
+                }
+                statusEl.textContent = statusText;
+                statusEl.className = `status ${latest.status}`;
+            }
+            populateRequestsList();
+        }
+
+        // Load status on page load
+        updateStatus();
+    </script>
+</body>
+</html>

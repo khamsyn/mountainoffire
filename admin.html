@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MFM Admin Panel</title>
+    <link rel="shortcut icon" type="x-icon" href="icon1.png">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="icon1.png" alt="MFM Logo">
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="admin.html">Admin Dashboard</a></li>
+                    <li><a href="login.html">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Admin Section -->
+    <section class="adminSection">
+        <div class="container">
+            <h2 class="sectionTitle">Counselling Requests</h2>
+            <div class="filterButtons">
+                <button onclick="filterRequests('all')">All</button>
+                <button onclick="filterRequests('mild')">Mild</button>
+                <button onclick="filterRequests('moderate')">Moderate</button>
+                <button onclick="filterRequests('urgent')">Urgent</button>
+            </div>
+            <div class="requestsTable">
+                <table id="requestsTable">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Counselling Need</th>
+                            <th>Urgency</th>
+                            <th>Status</th>
+                            <th>Forwarded</th>
+                            <th>Timestamp</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="requestsBody">
+                        <!-- Requests will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="newsLetterContainer">
+                <img src="icon1.png" alt="">
+                <p>Mountain of Fire & Miracles Ministries Automated Counselling System</p>
+            </div>
+                <div class="linksContainer">
+                    <div class="title">Useful Links</div>
+                    <ul>
+                        <li><a href="admin.html">Admin Dashboard</a></li>
+                        <li><a href="login.html">Logout</a></li>
+                    </ul>
+                </div>
+            <div class="connectContainer">
+                <div class="title">Connect with us</div>
+                <p>NO.1, Umar Dangiwa Street, Narayi High Court<br>Kaduna State, Nigeria.</p>
+                <p>info@mountainoffireandmiraclesministeries.com</p>
+                <p>+2347034799767<br>+2348057202356</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentFilter = 'all';
+        let currentDetailsRow = null;
+
+        // Load requests on page load
+        loadRequests('all');
+
+        function loadRequests(urgencyFilter = 'all') {
+            const allRequests = JSON.parse(localStorage.getItem('counselingRequests')) || [];
+            let filteredRequests = allRequests;
+            if (urgencyFilter !== 'all') {
+                filteredRequests = allRequests.filter(r => r.urgency === urgencyFilter);
+            }
+            const tbody = document.getElementById('requestsBody');
+            tbody.innerHTML = '';
+            filteredRequests.forEach((request) => {
+                const originalIndex = allRequests.indexOf(request);
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><button class="userBtn" onclick="showDetails(this, ${originalIndex})">${request.username}</button></td>
+                    <td>${request.need.length > 50 ? request.need.substring(0, 50) + '...' : request.need}</td>
+                    <td>${request.urgency}</td>
+                    <td class="status ${request.status}">${request.status.charAt(0).toUpperCase() + request.status.slice(1)}</td>
+                    <td class="forwarded ${request.forwarded ? 'yes' : 'no'}">${request.forwarded ? '✓' : '✗'}</td>
+                    <td>${new Date(request.timestamp).toLocaleString()}</td>
+                    <td>
+                        ${request.status === 'pending' ? `<button class="approveBtn" onclick="approveRequest(${originalIndex})">Approve</button> <button class="rejectBtn" onclick="rejectRequest(${originalIndex})">Reject</button>` : request.status === 'approved' ? `<button class="cancelBtn" onclick="cancelRequest(${originalIndex})">Cancel</button>` : request.status === 'rejected' ? `<button class="approveBtn" onclick="approveRequest(${originalIndex})">Approve</button>` : request.status.charAt(0).toUpperCase() + request.status.slice(1)}
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function filterRequests(urgency) {
+            currentFilter = urgency;
+            loadRequests(urgency);
+        }
+
+        function approveRequest(index) {
+            let requests = JSON.parse(localStorage.getItem('counselingRequests')) || [];
+            if (requests[index]) {
+                requests[index].status = 'approved';
+                localStorage.setItem('counselingRequests', JSON.stringify(requests));
+                loadRequests(currentFilter); // Reload the table
+                alert('Request approved!');
+            }
+        }
+
+        function rejectRequest(index) {
+            let requests = JSON.parse(localStorage.getItem('counselingRequests')) || [];
+            if (requests[index]) {
+                requests[index].status = 'rejected';
+                localStorage.setItem('counselingRequests', JSON.stringify(requests));
+                loadRequests(currentFilter); // Reload the table
+                alert('Request rejected!');
+            }
+        }
+
+        function cancelRequest(index) {
+            let requests = JSON.parse(localStorage.getItem('counselingRequests')) || [];
+            if (requests[index]) {
+                requests[index].status = 'rejected';
+                localStorage.setItem('counselingRequests', JSON.stringify(requests));
+                loadRequests(currentFilter); // Reload the table
+                alert('Request cancelled!');
+            }
+        }
+
+        function showDetails(button, index) {
+            // Close any existing details
+            if (currentDetailsRow) {
+                currentDetailsRow.remove();
+                currentDetailsRow = null;
+            }
+
+            const requests = JSON.parse(localStorage.getItem('counselingRequests')) || [];
+            const request = requests[index];
+            if (request) {
+                // Populate missing fields from user data if not present
+                if (!request.fullName || !request.phone || !request.email) {
+                    const users = JSON.parse(localStorage.getItem('users')) || [];
+                    const user = users.find(u => u.username === request.username);
+                    if (user) {
+                        request.fullName = user.firstName + (user.lastName ? ' ' + user.lastName : '');
+                        request.phone = user.phone;
+                        request.email = user.email;
+                        localStorage.setItem('counselingRequests', JSON.stringify(requests));
+                    }
+                }
+                const row = button.closest('tr');
+                const tbody = row.parentElement;
+                const detailsRow = document.createElement('tr');
+                detailsRow.innerHTML = `
+                    <td colspan="7">
+                        <div class="requestDetails">
+                            <h3>Request Details</h3>
+                            <p><strong>Full Name:</strong> ${request.fullName || 'N/A'}</p>
+                            <p><strong>Phone Number:</strong> ${request.phone || 'N/A'}</p>
+                            <p><strong>Email Address:</strong> ${request.email || 'N/A'}</p>
+                            <p><strong>Counselling Need:</strong> ${request.need}</p>
+                            <p><strong>Urgency:</strong> ${request.urgency}</p>
+                            <p><strong>Timestamp:</strong> ${new Date(request.timestamp).toLocaleString()}</p>
+                            <button class="whatsappBtn" onclick="forwardToWhatsApp(${index})">Forward to Counselor via WhatsApp</button>
+                            <button onclick="closeDetails()">Close</button>
+                        </div>
+                    </td>
+                `;
+                row.insertAdjacentElement('afterend', detailsRow);
+                currentDetailsRow = detailsRow;
+            }
+        }
+
+        function forwardToWhatsApp(index) {
+            const requests = JSON.parse(localStorage.getItem('counselingRequests')) || [];
+            const request = requests[index];
+            if (request) {
+                const message = `New Counselling Request:\nFull Name: ${request.fullName || 'N/A'}\nPhone Number: ${request.phone || 'N/A'}\nEmail Address: ${request.email || 'N/A'}\nUsername: ${request.username}\nCounselling Need: ${request.need}\nUrgency: ${request.urgency}\nTimestamp: ${new Date(request.timestamp).toLocaleString()}`;
+                const encodedMessage = encodeURIComponent(message);
+                window.open(`https://wa.me/?text=${encodedMessage}`, '_blank');
+                request.forwarded = true;
+                localStorage.setItem('counselingRequests', JSON.stringify(requests));
+                loadRequests(currentFilter); // Reload the table to show the checkmark
+            }
+        }
+
+        function closeDetails() {
+            if (currentDetailsRow) {
+                currentDetailsRow.remove();
+                currentDetailsRow = null;
+            }
+        }
+    </script>
+</body>
+</html>
